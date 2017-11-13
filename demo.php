@@ -1,4 +1,7 @@
 <?php
+/**
+ * 讀入相關檔案
+ */
 require 'classes/insertSO.php';
 require 'classes/cancelSO.php';
 require 'classes/insertSA.php';
@@ -6,12 +9,18 @@ require 'classes/getInvNo.php';
 require 'classes/updatePrdt.php';
 require 'api.php';
 
+/**
+ * 宣告相關物件
+ */
 use classes\insertSO;
 use classes\cancelSO;
 use classes\insertSA;
 use classes\getInvNo;
 use classes\updatePrdt;
 
+/**
+ * 初始化相關物件
+ */
 $insertSO = new insertSO;
 $cancelSO = new cancelSO;
 $insertSA = new insertSA;
@@ -19,6 +28,9 @@ $getInvNo = new getInvNo;
 $updatePrdt = new updatePrdt;
 $api = new api;
 
+/**
+ * 將資料注入元件
+ */
 $insertSO->OS_DD = date('Y-m-d');
 $insertSO->OS_NO = 'TEST' . (string) time();
 $insertSO->PO_DEP = 'S0003';
@@ -32,6 +44,7 @@ $insertSO->WH = '0000';
 $insertSO->TAX_ID = '2';
 $insertSO->QTY = 9999;
 $insertSO->UP = 120;
+$insertSO->TAX = 5;
 $insertSO->AMTN = 100;
 $insertSO->DIS_CNT = 0;
 $insertSO->SAL_NO = 'EC';
@@ -75,31 +88,24 @@ $updatePrdt->SPC_TAX = 5;
 $updatePrdt->UT = '1';
 $updatePrdt->KND = '1';
 
-print_r($insertSO);
-
+/**
+ * 呼叫API
+ */
 $result = $api
     ->appendInsertSOParam($insertSO)
     ->insertSO();
-
-print_r($cancelSO);
 
 $result = $api
     ->appendCancelSOParam($cancelSO)
     ->cancelSO();
 
-print_r($insertSA);
-
 $result = $api
     ->appendInsertSAParam($insertSA)
     ->insertSA();
 
-print_r($getInvNo);
-
 $result = $api
     ->appendGetInvNoParam($getInvNo)
     ->getInvNo();
-
-print_r($updatePrdt);
 
 $result = $api
     ->appendUpdatePrdtParam($updatePrdt)
